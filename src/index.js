@@ -2,6 +2,11 @@
 import './img/characters.png';
 import './img/misc.png';
 import './img/pills.png';
+// AGENT_MOD: Import SVG icons for ghost sprites
+import '../assets/dsl.svg';
+import '../assets/fusion.svg';
+import '../assets/vkd.svg';
+import '../assets/vum.svg';
 // Audio
 import './audio/back.mp3';
 import './audio/bonus.mp3';
@@ -17,26 +22,31 @@ import './styles.css';
 
 import Game from './js/Game.js';
 
-window.addEventListener('load', (event) => {
-    const container = document.querySelector('.js-pacman-container');
+window.addEventListener('load', event => {
+  const container = document.querySelector('.js-pacman-container');
 
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+  const vw = Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
+  const vh = Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
 
-    class GameWithPosition extends Game {
-        constructor(options) {
-            super(options);
-            this.el.style.left = '50%';
-            this.el.style.marginLeft = `-${this.el.offsetWidth / 2}px`;
-            this.el.style.top = '50%';
-            this.el.style.marginTop = `-${this.el.offsetHeight / 2}px`;
-        }
+  class GameWithPosition extends Game {
+    constructor(options) {
+      super(options);
+      this.el.style.left = '50%';
+      this.el.style.marginLeft = `-${this.el.offsetWidth / 2}px`;
+      this.el.style.top = '50%';
+      this.el.style.marginTop = `-${this.el.offsetHeight / 2}px`;
     }
+  }
 
-    const game = new GameWithPosition({
-        el : document.querySelector('.js-pacman-playground'),
-        width : vw * 0.9,
-        height : vh * 0.9
-    });
-
+  const game = new GameWithPosition({
+    el: document.querySelector('.js-pacman-playground'),
+    width: vw * 0.9,
+    height: vh * 0.9,
+  });
 });

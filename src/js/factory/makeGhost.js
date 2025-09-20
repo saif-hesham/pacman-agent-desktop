@@ -7,171 +7,176 @@ export const SPRITE_BLINKY = 'SPRITE_BLINKY';
 export const SPRITE_INKY = 'SPRITE_INKY';
 export const SPRITE_SUE = 'SPRITE_SUE';
 
-export default (label, options) => {
-    // Pink Ghost
-    if (label === 'pinky') {
-        options = Object.assign({
-            type : SPRITE_PINKY,
-            dir : 'd',
-            defaultAnimation : 'down',
-            getChaseTarget : function() {
-                var t = this.pacmanData.tile;
-                var dir = this.pacmanData.dir;
-                return t.get(dir).get(dir).get(dir).get(dir);
-            },
-            animations : {
-                ...animations,
-                right : new Animation({
-                    ...animationBase,
-                    offsetY : 252,
-                    offsetX : -2
-                }),
+// AGENT_MOD: Create SVG-based animation base for ghost icons
+const svgAnimationBase = {
+  numberOfFrame: 1,
+  delta: 0,
+  refreshRate: 180,
+  offsetX: 0,
+  offsetY: 0,
+};
 
-                down : new Animation({
-                    ...animationBase,
-                    offsetY : 252,
-                    offsetX : 64 * 2 - 2
-                }),
+// AGENT_MOD: Helper function to create all directional animations for an SVG icon
+const createSvgAnimations = imageURL => ({
+  right: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+  down: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+  up: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+  left: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+  // AGENT_MOD: Add frightened animation (lighter shade)
+  frightened: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+  // AGENT_MOD: Add frightened blink animation (darker shade for flashing)
+  frightenedBlink: new Animation({
+    ...svgAnimationBase,
+    imageURL,
+  }),
+});
 
-                up : new Animation({
-                    ...animationBase,
-                    offsetY : 252,
-                    offsetX : 64 * 4 - 2
-                }),
+// AGENT_MOD: Create a custom Ghost class that handles SVG sprites properly
+class SvgGhost extends Ghost {
+  setAnimation(animation, index, callback) {
+    super.setAnimation(animation, index, callback);
+    // Override background styling for SVG images
+    if (animation.imageURL.endsWith('.svg')) {
+      this.el.style.backgroundSize = 'contain';
+      this.el.style.backgroundRepeat = 'no-repeat';
+      this.el.style.backgroundPosition = 'center';
 
-                left : new Animation({
-                    ...animationBase,
-                    offsetY : 252,
-                    offsetX : 64 * 6 - 2
-                })
-            }
-        }, options);
+      // AGENT_MOD: Apply CSS filters for frightened states
+      const animationKey = this.getAnimationKey(animation);
+      if (animationKey === 'frightened') {
+        // Lighter shade for frightened state
+        this.el.style.filter = 'brightness(1.5) opacity(0.7)';
+      } else if (animationKey === 'frightenedBlink') {
+        // Darker shade for blinking effect
+        this.el.style.filter = 'brightness(0.3) contrast(2)';
+      } else {
+        // Normal state - reset filter
+        this.el.style.filter = 'none';
+      }
     }
-    // Red Ghost
-    if (label === 'blinky') {
-        options = Object.assign({
-            type : SPRITE_BLINKY,
-            dir : 'l',
-            waitTime : 0,
-            scatterTarget : 25,
-            defaultAnimation : 'left',
-            animations : {
-                ...animations,
-                right : new Animation({
-                    ...animationBase,
-                    offsetY : 124,
-                    offsetX : -2
-                }),
+  }
 
-                down : new Animation({
-                    ...animationBase,
-                    offsetY : 124,
-                    offsetX : 64 * 2 - 2
-                }),
-
-                up : new Animation({
-                    ...animationBase,
-                    offsetY : 124,
-                    offsetX : 64 * 4 - 2
-                }),
-
-                left : new Animation({
-                    ...animationBase,
-                    offsetY : 124,
-                    offsetX : 64 * 6 - 2
-                })
-            }
-        }, options);
+  // AGENT_MOD: Helper method to identify which animation is being used
+  getAnimationKey(animation) {
+    for (const [key, anim] of Object.entries(this.animations)) {
+      if (anim === animation) {
+        return key;
+      }
     }
-    // Cyan Ghost
-    if (label === 'inky') {
-        options = Object.assign({
-            type : SPRITE_INKY,
-            dir : 'u',
-            waitTime : 6,
-            scatterTarget : 979,
-            defaultAnimation : 'up',
-            getChaseTarget : function() {
-                var pacmanTile = this.pacmanData.tile;
-                var blinkyTile = this.blinky.getTile();
-                var dir = this.pacmanData.dir;
-
-                pacmanTile = pacmanTile.get(dir).get(dir); // Two tiles in front of pacman
-
-                return this.map.getTile(pacmanTile.col + pacmanTile.col - blinkyTile.col, pacmanTile.row + pacmanTile.row - blinkyTile.row);
-
-            },
-            animations : {
-                ...animations,
-                right : new Animation({
-                    ...animationBase,
-                    offsetY : 316,
-                    offsetX : -2
-                }),
-
-                down : new Animation({
-                    ...animationBase,
-                    offsetY : 316,
-                    offsetX : 64 * 2 - 2
-                }),
-
-                up : new Animation({
-                    ...animationBase,
-                    offsetY : 316,
-                    offsetX : 64 * 4 - 2
-                }),
-
-                left : new Animation({
-                    ...animationBase,
-                    offsetY : 316,
-                    offsetX : 64 * 6 - 2
-                })
-            }
-        }, options);
-    }
-    // Orange Ghost
-    if (label === 'sue') {
-        options = Object.assign({
-            type : SPRITE_SUE,
-            dir : 'u',
-            waitTime : 8,
-            scatterTarget : 953,
-            defaultAnimation : 'up',
-            getChaseTarget : function() {
-                var t = this.pacmanData.tile;
-                var d = getDistance(t, this.getTile());
-                if (d > 16 * t.w) return t;
-                else return this.scatterTarget;
-            },
-            animations : {
-                ...animations,
-                'right' : new Animation({
-                    ...animationBase,
-                    offsetY : 188,
-                    offsetX : -2
-                }),
-
-                'down' : new Animation({
-                    ...animationBase,
-                    offsetY : 188,
-                    offsetX : 64 * 2 - 2
-                }),
-
-                'up' : new Animation({
-                    ...animationBase,
-                    offsetY : 188,
-                    offsetX : 64 * 4 - 2
-                }),
-
-                'left' : new Animation({
-                    ...animationBase,
-                    offsetY : 188,
-                    offsetX : 64 * 6 - 2
-                })
-           }
-
-       }, options);
-    }
-
-    return new Ghost(options);
+    return null;
+  }
 }
+
+export default (label, options) => {
+  // Pink Ghost
+  if (label === 'pinky') {
+    options = Object.assign(
+      {
+        type: SPRITE_PINKY,
+        dir: 'd',
+        defaultAnimation: 'down',
+        getChaseTarget: function () {
+          var t = this.pacmanData.tile;
+          var dir = this.pacmanData.dir;
+          return t.get(dir).get(dir).get(dir).get(dir);
+        },
+        animations: {
+          ...animations,
+          // AGENT_MOD: Use fusion.svg for Pinky (Pink Ghost)
+          ...createSvgAnimations('img/fusion.svg'),
+        },
+      },
+      options
+    );
+  }
+  // Red Ghost
+  if (label === 'blinky') {
+    options = Object.assign(
+      {
+        type: SPRITE_BLINKY,
+        dir: 'l',
+        waitTime: 0,
+        scatterTarget: 25,
+        defaultAnimation: 'left',
+        animations: {
+          ...animations,
+          // AGENT_MOD: Use dsl.svg for Blinky (Red Ghost)
+          ...createSvgAnimations('img/dsl.svg'),
+        },
+      },
+      options
+    );
+  }
+  // Cyan Ghost
+  if (label === 'inky') {
+    options = Object.assign(
+      {
+        type: SPRITE_INKY,
+        dir: 'u',
+        waitTime: 6,
+        scatterTarget: 979,
+        defaultAnimation: 'up',
+        getChaseTarget: function () {
+          var pacmanTile = this.pacmanData.tile;
+          var blinkyTile = this.blinky.getTile();
+          var dir = this.pacmanData.dir;
+
+          pacmanTile = pacmanTile.get(dir).get(dir); // Two tiles in front of pacman
+
+          return this.map.getTile(
+            pacmanTile.col + pacmanTile.col - blinkyTile.col,
+            pacmanTile.row + pacmanTile.row - blinkyTile.row
+          );
+        },
+        animations: {
+          ...animations,
+          // AGENT_MOD: Use vkd.svg for Inky (Cyan Ghost)
+          ...createSvgAnimations('img/vkd.svg'),
+        },
+      },
+      options
+    );
+  }
+  // Orange Ghost
+  if (label === 'sue') {
+    options = Object.assign(
+      {
+        type: SPRITE_SUE,
+        dir: 'u',
+        waitTime: 8,
+        scatterTarget: 953,
+        defaultAnimation: 'up',
+        getChaseTarget: function () {
+          var t = this.pacmanData.tile;
+          var d = getDistance(t, this.getTile());
+          if (d > 16 * t.w) return t;
+          else return this.scatterTarget;
+        },
+        animations: {
+          ...animations,
+          // AGENT_MOD: Use vum.svg for Sue (Orange Ghost)
+          ...createSvgAnimations('img/vum.svg'),
+        },
+      },
+      options
+    );
+  }
+
+  // AGENT_MOD: Return SvgGhost instead of regular Ghost for SVG sprite handling
+  return new SvgGhost(options);
+};
