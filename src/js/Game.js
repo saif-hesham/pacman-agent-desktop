@@ -416,12 +416,12 @@ class JsPacman extends Game {
 
     this.addSprite(this.sue);
 
-    // AGENT_MOD: Add fifth ghost - Mobile
-    const mobileTile = this.map.houseCenter.getL().getL();
+    // AGENT_MOD: Add fifth ghost - Mobile (position inside ghost house)
+    const mobileTile = this.map.houseCenter;
     this.mobile = makeGhost('mobile', {
       ...ghostAttrs,
-      x: mobileTile.x - 16,
-      y: mobileTile.y,
+      x: mobileTile.x + 8, // Position slightly right of center to avoid overlap
+      y: mobileTile.y - 8, // Position slightly above center
     });
 
     this.addEventListenersToGhost(this.mobile);
