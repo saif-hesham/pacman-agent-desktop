@@ -58,12 +58,9 @@ class SvgGhost extends Ghost {
 
       // AGENT_MOD: Apply CSS filters for frightened states
       const animationKey = this.getAnimationKey(animation);
-      if (animationKey === 'frightened') {
-        // Lighter shade for frightened state
-        this.el.style.filter = 'brightness(1.5) opacity(0.7)';
-      } else if (animationKey === 'frightenedBlink') {
-        // Darker shade for blinking effect
-        this.el.style.filter = 'brightness(0.3) contrast(2)';
+      if (animationKey === 'frightened' || animationKey === 'frightenedBlink') {
+        // Lighter shade for frightened state (both normal and blink use same effect)
+        this.el.style.filter = 'brightness(2) opacity(0.5)';
       } else {
         // Normal state - reset filter
         this.el.style.filter = 'none';
