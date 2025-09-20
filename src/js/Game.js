@@ -9,6 +9,7 @@ import makeBonus from './factory/makeBonus.js';
 import Pacman from './Pacman.js';
 import Lives from './Lives.js';
 import Bonuses from './Bonuses.js';
+import MazeRenderer from './MazeRenderer.js'; // AGENT_MOD: Dynamic maze rendering
 
 import {
   EVENT_KEY_DOWN,
@@ -176,7 +177,25 @@ class JsPacman extends Game {
   makeLevel() {
     Object.assign(this, this.model.getSettings('game'));
 
+    // AGENT_MOD: Store raw map data for dynamic rendering before Map class processes it
+    const rawMapData = this.map;
     this.map = new Map(this.map);
+
+    // AGENT_MOD: Initialize dynamic maze renderer with raw map data and scaling
+    if (!this.mazeRenderer) {
+      this.mazeRenderer = new MazeRenderer(
+        rawMapData,
+        this.scaling.getFactor()
+      );
+      MazeRenderer.addAnimationCSS(); // Add CSS animations once
+    } else {
+      this.mazeRenderer.scalingFactor = this.scaling.getFactor();
+      this.mazeRenderer.tileSize = 32 * this.scaling.getFactor(); // AGENT_MOD: Use 32px tiles
+      this.mazeRenderer.updateMaze(this.el, rawMapData);
+    }
+
+    // AGENT_MOD: Render dynamic maze instead of using background image
+    this.mazeRenderer.renderMaze(this.el);
 
     this.el.classList.remove('maze-1');
     this.el.classList.remove('maze-2');
@@ -198,7 +217,11 @@ class JsPacman extends Game {
       total = 0;
     while (i--) {
       var tile = this.map.tiles[i];
+
+      // AGENT_MOD: Disable original dot/pill sprite creation - dynamic maze handles all visuals
+      // BUT keep the tile.item reference for game logic (collision detection, scoring)
       if (tile.code === '.') {
+        // Create invisible dot for game logic only
         let dot = makeDot({
           defaultAnimation: dotAnimationLabel,
           map: this.map,
@@ -207,12 +230,14 @@ class JsPacman extends Game {
           x: tile.x,
           y: tile.y,
         });
+        dot.el.style.display = 'none'; // AGENT_MOD: Hide original dots
         tile.item = dot;
         this.addSprite(dot);
         total++;
       }
 
       if (tile.code === '*') {
+        // Create invisible pill for game logic only
         let pill = makePill({
           defaultAnimation: dotAnimationLabel,
           map: this.map,
@@ -221,6 +246,7 @@ class JsPacman extends Game {
           x: tile.x,
           y: tile.y,
         });
+        pill.el.style.display = 'none'; // AGENT_MOD: Hide original pills
         tile.item = pill;
         this.addSprite(pill);
         total++;
@@ -252,6 +278,11 @@ class JsPacman extends Game {
       this.model.addScore(this.pillScore);
 
       this.totalItems--;
+
+      // AGENT_MOD: Sync dynamic maze with game state
+      if (this.mazeRenderer) {
+        this.mazeRenderer.syncWithGameTiles(this.map.tiles);
+      }
 
       if (this.totalItems === 0) {
         this.win();
@@ -310,6 +341,11 @@ class JsPacman extends Game {
       this.sound.play('dot');
 
       this.totalItems--;
+
+      // AGENT_MOD: Sync dynamic maze with game state
+      if (this.mazeRenderer) {
+        this.mazeRenderer.syncWithGameTiles(this.map.tiles);
+      }
 
       if (this.totalItems === 0) {
         this.win();
