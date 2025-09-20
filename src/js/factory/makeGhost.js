@@ -180,10 +180,10 @@ export default (label, options) => {
     options = Object.assign(
       {
         type: SPRITE_MOBILE,
-        dir: 'l',
+        dir: 'u', // AGENT_MOD: Start with vertical direction for bouncing
         waitTime: 12,
         scatterTarget: 27,
-        defaultAnimation: 'left',
+        defaultAnimation: 'up', // AGENT_MOD: Match the initial direction
         getChaseTarget: function () {
           // Similar to Blinky but with slight variation - target 2 tiles ahead
           var t = this.pacmanData.tile;
