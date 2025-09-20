@@ -7,6 +7,7 @@ import '../assets/dsl.svg';
 import '../assets/fusion.svg';
 import '../assets/vkd.svg';
 import '../assets/vum.svg';
+import '../assets/mobile.svg';
 // Audio
 import './audio/back.mp3';
 import './audio/bonus.mp3';

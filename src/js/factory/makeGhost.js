@@ -6,6 +6,8 @@ export const SPRITE_PINKY = 'SPRITE_PINKY';
 export const SPRITE_BLINKY = 'SPRITE_BLINKY';
 export const SPRITE_INKY = 'SPRITE_INKY';
 export const SPRITE_SUE = 'SPRITE_SUE';
+// AGENT_MOD: Add fifth ghost type for mobile.svg
+export const SPRITE_MOBILE = 'SPRITE_MOBILE';
 
 // AGENT_MOD: Create SVG-based animation base for ghost icons
 const svgAnimationBase = {
@@ -168,6 +170,30 @@ export default (label, options) => {
           ...animations,
           // AGENT_MOD: Use vum.svg for Sue (Orange Ghost)
           ...createSvgAnimations('img/vum.svg'),
+        },
+      },
+      options
+    );
+  }
+  // AGENT_MOD: Fifth Ghost - Mobile
+  if (label === 'mobile') {
+    options = Object.assign(
+      {
+        type: SPRITE_MOBILE,
+        dir: 'l',
+        waitTime: 12,
+        scatterTarget: 27,
+        defaultAnimation: 'left',
+        getChaseTarget: function () {
+          // Similar to Blinky but with slight variation - target 2 tiles ahead
+          var t = this.pacmanData.tile;
+          var dir = this.pacmanData.dir;
+          return t.get(dir).get(dir);
+        },
+        animations: {
+          ...animations,
+          // AGENT_MOD: Use mobile.svg for Mobile Ghost
+          ...createSvgAnimations('img/mobile.svg'),
         },
       },
       options
