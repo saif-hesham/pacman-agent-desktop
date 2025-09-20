@@ -758,7 +758,7 @@ class JsPacman extends Game {
             <div class="paused" style="display: none"><span class="wrap">PAUSED</span></div>
             <div class="splash">
                 <span class="title">"Agent Man"</span>
-                <p class="nerd">Legacy Stacks<br><br><span>Slayer</span></p>
+                <p class="nerd">Legacy Stacks<br><br><span>Slayer ⚔️</span></p>
                 <a class="start" style="display: none">START</a>
                 <div class="loadbar"><div class="inner"></div></div>
                 <p class="keys"><span>&larr;&uarr;&darr;&rarr;</span>:MOVE <span>S</span>:SOUND <span>P</span>:PAUSE</p>
