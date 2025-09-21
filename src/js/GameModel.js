@@ -119,7 +119,9 @@ class GameModel extends Model {
     getSettings(key) {
         const obj = {};
 
-        const level = this.level > data.length ? data.length : this.level;
+        // const level = this.level > data.length ? data.length : this.level;
+        // For single level gameplay
+        const level = 1;
 
         let i = keys.length;
 

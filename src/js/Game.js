@@ -124,9 +124,12 @@ class JsPacman extends Game {
 
   startLevel() {
     if (this._win) {
-      this.model.level++;
-      this.reset();
-      this._win = false;
+      // this.model.level++;
+      // this.reset();
+      // this._win = false;
+      
+      // Instead of advancing to next level, show celebration and restart
+      this.showCelebration();
       return;
     }
 
@@ -483,7 +486,8 @@ class JsPacman extends Game {
       }
 
       if (this._win) {
-        this.startLevel();
+        // this.startLevel();
+        // Celebration is handled in startLevel() now
         return;
       }
 
@@ -575,21 +579,157 @@ class JsPacman extends Game {
     this._pauseFrames = 120;
     this._win = true;
 
-    let times = 14;
-    this.addCallback(() => {
-      if (times) {
-        times--;
-        this.el.classList.toggle('blink');
-        return false; // Keep running.
-      } else {
-        this.el.classList.remove('blink');
-        return true; // Remove callback.
-      }
-    }, this.refreshRate * 8);
+    // Enhanced celebration with multiple effects
+    this.startBigCelebration();
 
     this.hideGhosts();
     this.map.hideItems();
     this.pacman.pauseAnimation();
+  }
+
+  startBigCelebration() {
+    // Create celebration elements
+    this.createCelebrationElements();
+    
+    // Start multiple celebration effects
+    this.startConfettiEffect();
+    this.startScreenFlash();
+    this.startVictoryText();
+    this.startFireworks();
+    
+    // Play victory sound
+    this.sound.play('bonus'); // Using bonus sound as victory sound
+  }
+
+  createCelebrationElements() {
+    // Create victory text overlay
+    if (!this.elements.victoryText) {
+      const victoryText = document.createElement('div');
+      victoryText.className = 'victory-text';
+      victoryText.innerHTML = '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">🏆 ALL LEGACY STACKS CONQUERED! 🏆</span>';
+      this.el.appendChild(victoryText);
+      this.elements.victoryText = victoryText;
+    }
+    
+    // Create confetti container
+    if (!this.elements.confettiContainer) {
+      const confettiContainer = document.createElement('div');
+      confettiContainer.className = 'confetti-container';
+      this.el.appendChild(confettiContainer);
+      this.elements.confettiContainer = confettiContainer;
+    }
+  }
+
+  startConfettiEffect() {
+    const confettiContainer = this.elements.confettiContainer;
+    const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
+    
+    // Create confetti pieces
+    for (let i = 0; i < 100; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        confettiContainer.appendChild(confetti);
+        
+        // Remove confetti after animation
+        setTimeout(() => {
+          if (confetti.parentNode) {
+            confetti.parentNode.removeChild(confetti);
+          }
+        }, 5000);
+      }, i * 50);
+    }
+  }
+
+  startScreenFlash() {
+    // Enhanced blinking effect with more colors
+    let times = 20;
+    this.addCallback(() => {
+      if (times) {
+        times--;
+        this.el.classList.toggle('blink');
+        this.el.classList.toggle('celebration-flash');
+        return false; // Keep running.
+      } else {
+        this.el.classList.remove('blink');
+        this.el.classList.remove('celebration-flash');
+        return true; // Remove callback.
+      }
+    }, this.refreshRate * 6);
+  }
+
+  startVictoryText() {
+    const victoryText = this.elements.victoryText;
+    victoryText.style.display = 'block';
+    victoryText.style.opacity = '0';
+    victoryText.style.transform = 'scale(0.5)';
+    
+    // Animate victory text appearance
+    setTimeout(() => {
+      victoryText.style.transition = 'all 0.8s ease-out';
+      victoryText.style.opacity = '1';
+      victoryText.style.transform = 'scale(1)';
+    }, 500);
+    
+    // Make text bounce
+    setTimeout(() => {
+      victoryText.style.animation = 'victoryBounce 0.6s ease-in-out infinite alternate';
+    }, 1000);
+  }
+
+  startFireworks() {
+    // Create firework effects
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.createFirework();
+      }, i * 800);
+    }
+  }
+
+  createFirework() {
+    const firework = document.createElement('div');
+    firework.className = 'firework';
+    firework.style.left = (Math.random() * 80 + 10) + '%';
+    firework.style.top = (Math.random() * 60 + 20) + '%';
+    this.el.appendChild(firework);
+    
+    setTimeout(() => {
+      if (firework.parentNode) {
+        firework.parentNode.removeChild(firework);
+      }
+    }, 2000);
+  }
+
+  showCelebration() {
+    // Show celebration for 5 seconds, then restart
+    setTimeout(() => {
+      this.hideCelebration();
+      this.reset();
+      this._win = false;
+      show(this.elements.splash);
+    }, 5000);
+  }
+
+  hideCelebration() {
+    // Hide all celebration elements
+    if (this.elements.victoryText) {
+      this.elements.victoryText.style.display = 'none';
+    }
+    if (this.elements.confettiContainer) {
+      this.elements.confettiContainer.innerHTML = '';
+    }
+    
+    // Remove any remaining firework elements
+    const fireworks = this.el.querySelectorAll('.firework');
+    fireworks.forEach(fw => {
+      if (fw.parentNode) {
+        fw.parentNode.removeChild(fw);
+      }
+    });
   }
 
   hideGhosts() {
@@ -757,9 +897,9 @@ class JsPacman extends Game {
             <div class="sound-status on" style="display: none"><span class="wrap">SOUND: <span class="on">ON</span><span class="off">OFF</span></span></div>
             <div class="paused" style="display: none"><span class="wrap">PAUSED</span></div>
             <div class="splash">
-                <span class="title">"Agent Man"</span>
-                <p class="nerd">Legacy Stacks<br><br><span>Slayer ⚔️</span></p>
-                <a class="start" style="display: none">START</a>
+                <span class="title">&nbsp;&nbsp;&nbsp;"Agent Man"</span>
+                <p class="nerd">Legacy Stacks<br><br><span>⚔️ Slayer ⚔️</span></p>
+                <a class="start" style="display: none">🚀 START GAME 🚀</a>
                 <div class="loadbar"><div class="inner"></div></div>
                 <p class="keys"><span>&larr;&uarr;&darr;&rarr;</span>:MOVE <span>S</span>:SOUND <span>P</span>:PAUSE</p>
                 <div class="credits">&#169; 2014-${new Date().getFullYear()} <span>8</span>TENTACULOS <a href="https://github.com/8tentaculos/jsPacman">SOURCE+INFO</a></div>

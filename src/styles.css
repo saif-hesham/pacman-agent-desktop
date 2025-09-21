@@ -246,6 +246,117 @@ body {
     padding: 0.1em;
 }
 
+/* Celebration Effects */
+.js-pacman-playground .victory-text {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #FFD700;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-shadow: 3px 3px 0px #FF0000, -3px -3px 0px #00FF00;
+    z-index: 10;
+    display: none;
+}
+
+.js-pacman-playground .victory-subtitle {
+    display: block;
+    font-size: 0.6em;
+    color: #00FF00;
+    margin-top: 0.5em;
+    text-shadow: 2px 2px 0px #0000FF;
+}
+
+.js-pacman-playground .confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.js-pacman-playground .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confettiFall linear forwards;
+}
+
+.js-pacman-playground .firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: fireworkExplode 2s ease-out forwards;
+}
+
+.js-pacman-playground.celebration-flash {
+    background-color: #FFD700 !important;
+    animation: celebrationPulse 0.3s ease-in-out;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fireworkExplode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+        box-shadow: 0 0 0 0 currentColor;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 20px 10px currentColor;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+        box-shadow: 0 0 40px 20px transparent;
+    }
+}
+
+@keyframes victoryBounce {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@keyframes celebrationPulse {
+    0% {
+        background-color: #FFD700;
+    }
+    25% {
+        background-color: #FF6B6B;
+    }
+    50% {
+        background-color: #4ECDC4;
+    }
+    75% {
+        background-color: #45B7D1;
+    }
+    100% {
+        background-color: #FFD700;
+    }
+}
+
 @media screen and (orientation: portrait) {
     /* body {
         background-color: #000;
