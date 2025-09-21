@@ -606,7 +606,7 @@ class JsPacman extends Game {
     if (!this.elements.victoryText) {
       const victoryText = document.createElement('div');
       victoryText.className = 'victory-text';
-      victoryText.innerHTML = '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">🏆 ALL LEGACY STACKS CONQUERED! 🏆</span>';
+      victoryText.innerHTML = '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">ALL LEGACY STACKS CONQUERED! <br> 🏆🏆🏆</span>';
       this.el.appendChild(victoryText);
       this.elements.victoryText = victoryText;
     }
