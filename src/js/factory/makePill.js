@@ -2,16 +2,16 @@ import Animation, { ANIMATION_VERTICAL } from '../engine/Animation.js';
 import Item from '../Item.js';
 
 const animationBase = {
-    imageURL : 'img/pills.png',
+    imageURL : 'img/vodafone.png',
     numberOfFrame : 2,
-    delta : 24,
+    delta : 48,
     refreshRate : 450,
     type : ANIMATION_VERTICAL
 };
 
 export default (options) => new Item({
-    width : 24,
-    height : 24,
+    width : 48,
+    height : 48,
     animations : {
         'white' : new Animation({
             ...animationBase
