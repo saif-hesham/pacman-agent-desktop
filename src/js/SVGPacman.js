@@ -60,10 +60,37 @@ class SVGPacman {
                         L ${sliceBottom_X} ${sliceBottom_Y} Z`;
         }
         
-        // Eye positioning - consistent relative to the circle body
+        // Eye positioning - position BEFORE rotation so it ends up in the right place AFTER rotation
         const eyeOffset = radius * 0.3;
-        let eyeX = center - eyeOffset;
-        let eyeY = center - eyeOffset;
+        let eyeX, eyeY;
+        
+        // Position eye so it appears at the top-left of Pac-Man's face AFTER rotation
+        switch (direction) {
+            case 'right':
+                // No rotation (0°) - eye should be top-left
+                eyeX = center - eyeOffset;
+                eyeY = center - eyeOffset; 
+                break;
+            case 'left':
+                // 180° rotation - position eye at bottom-right so it rotates to top-left
+                eyeX = center + eyeOffset;
+                eyeY = center + eyeOffset; 
+                break;
+            case 'up':
+                // 270° rotation - position eye at bottom-left so it rotates to top-left
+                eyeX = center - eyeOffset;
+                eyeY = center + eyeOffset;
+                break;
+            case 'down':
+                // 90° rotation - position eye at top-right so it rotates to top-left
+                eyeX = center + eyeOffset;
+                eyeY = center - eyeOffset;
+                break;
+            default:
+                // Default is left direction - same as left case
+                eyeX = center + eyeOffset;
+                eyeY = center + eyeOffset;
+        }
         
         return `
             <svg width="${SVG_SIZE}" height="${SVG_SIZE}" xmlns="http://www.w3.org/2000/svg">
