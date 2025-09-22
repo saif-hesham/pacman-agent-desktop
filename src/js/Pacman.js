@@ -1,34 +1,24 @@
 import Animation, { ANIMATION_HORIZONTAL } from './engine/Animation.js';
-import Character from './Character.js';
+import SVGCharacter from './SVGCharacter.js';
+import SVGPacman from './SVGPacman.js';
 
-const animationBase = {
-    imageURL : 'img/characters.png',
-    numberOfFrame : 4,
-    delta : 64,
-    refreshRate : 60,
-    offsetY : 60,
-    type : ANIMATION_HORIZONTAL
-};
+// Custom SVG Animation class for Pac-Man
+class SVGAnimation {
+    constructor(direction) {
+        this.direction = direction;
+        this.numberOfFrame = 4;
+        this.refreshRate = 60;
+        this.currentFrame = 0;
+        this.isReady = () => true;
+        this.load = () => Promise.resolve();
+    }
+}
 
 const animations = {
-    'right' : new Animation({
-        ...animationBase
-    }),
-
-    'down' : new Animation({
-        ...animationBase,
-        offsetX : 64 * 4
-    }),
-
-    'up' : new Animation({
-        ...animationBase,
-        offsetX : 64 * 8
-    }),
-
-    'left' : new Animation({
-        ...animationBase,
-        offsetX : 64 * 12
-    })
+    'right': new SVGAnimation('right'),
+    'down': new SVGAnimation('down'),
+    'up': new SVGAnimation('up'),
+    'left': new SVGAnimation('left')
 };
 
 const defaults = {
@@ -41,7 +31,7 @@ const defaults = {
     dotSpeed : null
 };
 
-class Pacman extends Character {
+class Pacman extends SVGCharacter {
     constructor(options) {
         super(options);
 
@@ -93,12 +83,12 @@ class Pacman extends Character {
     }
 
     reset() {
-        Character.prototype.reset.apply(this);
+        SVGCharacter.prototype.reset.apply(this);
         this._lastEatenTurnsTime = null;
     }
 
     move() {
-        if (!this._eatenTurns) Character.prototype.move.apply(this, arguments);
+        if (!this._eatenTurns) SVGCharacter.prototype.move.apply(this, arguments);
         else if (!this._eatenTurnsFrames) {
             if (this._eatenTurns === 9) this.emit('item:die');
             if (this._eatenTurns > 2) {
