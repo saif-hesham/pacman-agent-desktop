@@ -1,39 +1,37 @@
-![Artwork](./src/img/stuff/art.png)
+<div align="center">
+  <img src="./src/img/stuff/art.png" alt="Agent Desktop Quest" width="400"/>
+  
+  # 🎮 Agent Desktop Quest
+  
+  **A modern JavaScript remake of the classic Ms. Pac-Man game**
+  
+  *Featuring updated graphics for the legacy stacks unifier experience*
+  
+  [![Play Demo](https://img.shields.io/badge/🎮-Play%20Demo-blue?style=for-the-badge)](https://pacman.js.org/)
+</div>
 
-Agent Desktop Quest
-===================
+## 🏆 Credits
 
-**Agent Desktop Quest** is a modern JavaScript remake of the classic [Ms. Pac-Man](https://en.wikipedia.org/wiki/Ms._Pac-Man) game, featuring updated graphics for the legacy stacks unifier experience.
+* Original game algorithm is based on [The Pac-Man Dossier](https://pacman.holenet.info/)
+* Enhanced with custom SVG graphics for the Agent Desktop Quest experience
+* **Contributors**: Seifeldin Hesham, Shamseldeen Elgazzar 
 
-Play Demo
------------
-[pacman.js.org](https://pacman.js.org/)
+## 🚀 Development
 
-Credits
------------
-* Original game algorithm is based on [The Pac-Man Dossier](https://pacman.holenet.info/).
-* Enhanced with custom SVG graphicsfor the Agent Desktop Quest experience.
-
-Development
------------
-Install local modules:
-```
-$ npm install
-```
-### NPM scripts ###
-Run tests:
-```
-$ npm test
-```
-Run local dev server at `localhost:8080`
-```
-$ npm start
-```
-Build production bundle:
-```
-$ npm run build
+### Installation
+```bash
+npm install
 ```
 
-Licence
------------
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | 🏃 Run local dev server at `localhost:8080` |
+| `npm test` | 🧪 Run tests |
+| `npm run build` | 📦 Build production bundle |
+| `npm run clean` | 🧹 Clean dist folder |
+
+## 📄 License
+
 Source code is under [MIT Licence](http://opensource.org/licenses/mit-license.php).
