@@ -1,4 +1,3 @@
-<div align="center">
   <img src="./src/img/stuff/art.png" alt="Agent Desktop Quest" width="400"/>
   
   # 🎮 Agent Desktop Quest
@@ -7,8 +6,8 @@
   
   *Featuring updated graphics for the legacy stacks unifier experience*
   
-  [![Play Demo](https://img.shields.io/badge/🎮-Play%20Demo-blue?style=for-the-badge)](https://pacman.js.org/)
-</div>
+  [![Play Demo](https://img.shields.io/badge/🎮-Play%20Demo-blue?style=for-the-badge)](https://lighthearted-strudel-5cff36.netlify.app/)
+  [![Watch Demo](https://img.shields.io/badge/📺-Watch%20Demo-red?style=for-the-badge)](https://www.youtube.com/shorts/UqbHdHTxZEY)
 
 ## 🏆 Credits
 
