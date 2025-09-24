@@ -872,7 +872,7 @@ class JsPacman extends Game {
     return `
             <div class="score">
                 <div class="p1-score">1UP<br /><span>00</span></div>
-                <div class="high-score">HIGH SCORE<br /><span>${
+                <div class="high-score">AGENT SCORE<br /><span>${
                   model.highScore || '00'
                 }</span></div>
                 <div class="p2-score">2UP<br /><span>00</span></div>
@@ -883,8 +883,8 @@ class JsPacman extends Game {
             <div class="sound-status on" style="display: none"><span class="wrap">SOUND: <span class="on">ON</span><span class="off">OFF</span></span></div>
             <div class="paused" style="display: none"><span class="wrap">PAUSED</span></div>
             <div class="splash">
-                <span class="title">&nbsp;&nbsp;&nbsp;"Agent Man"</span>
-                <p class="nerd">Legacy Stacks<br><br><span>⚔️ Slayer ⚔️</span></p>
+                <span class="title">&nbsp;&nbsp;&nbsp;"Agent Desktop Quest"</span>
+                <p class="nerd">Legacy Stacks<br><br><span>🎯 Unifier 🎯</span></p>
                 <a class="start" style="display: none">🚀 START GAME 🚀</a>
                 <div class="loadbar"><div class="inner"></div></div>
                 <p class="keys"><span>&larr;&uarr;&darr;&rarr;</span>:MOVE <span>S</span>:SOUND <span>P</span>:PAUSE</p>
