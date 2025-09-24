@@ -1,9 +1,9 @@
 ![Artwork](./src/img/stuff/art.png)
 
-jsPacman
-========
+Agent Desktop Quest
+===================
 
-**jsPacman** is a JavaScript DOM-based remake of the classic [Ms. Pac-Man](https://en.wikipedia.org/wiki/Ms._Pac-Man) game.
+**Agent Desktop Quest** is a modern JavaScript remake of the classic [Ms. Pac-Man](https://en.wikipedia.org/wiki/Ms._Pac-Man) game, featuring updated graphics for the legacy stacks unifier experience.
 
 Play Demo
 -----------
@@ -11,8 +11,8 @@ Play Demo
 
 Credits
 -----------
-* Game algorithm is based on [The Pac-Man Dossier](https://pacman.holenet.info/).
-* Sprites are from [spriters-resource](http://www.spriters-resource.com/game_boy_advance/namcomuseum/sheet/22732).
+* Original game algorithm is based on [The Pac-Man Dossier](https://pacman.holenet.info/).
+* Enhanced with custom SVG graphicsfor the Agent Desktop Quest experience.
 
 Development
 -----------
