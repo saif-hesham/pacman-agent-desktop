@@ -176,37 +176,38 @@ body {
     top: 0;
     right: 0.4464%;
     left: 0.4464%;
-    text-align: center;
+    text-align: left;
     z-index: 2
 }
 
 .js-pacman-playground .score .p1-score {
     position: absolute;
-    width: 22%;
+    width: 50%;
     top: 0;
     left: 0;
 }
 
 .js-pacman-playground .score .high-score {
-    width: 40%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.js-pacman-playground .score .p2-score {
     position: absolute;
-    width: 22%;
+    width: 50%;
     top: 0;
     right: 0;
+    text-align: right;
 }
+
+/* Removed .p2-score (2UP) */
 
 .js-pacman-playground .score span {
     text-align: right;
     display: block;
 }
 
+.js-pacman-playground .score .p1-score span {
+    text-align: left;
+}
+
 .js-pacman-playground .score .high-score span {
-    text-align: center;
+    text-align: right;
 }
 
 .js-pacman-playground .start-p1 {
