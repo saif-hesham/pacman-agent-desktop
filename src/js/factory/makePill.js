@@ -2,7 +2,7 @@ import Animation, { ANIMATION_VERTICAL } from '../engine/Animation.js';
 import Item from '../Item.js';
 
 const animationBase = {
-    imageURL : 'img/vodafone.png',
+    imageURL : 'img/heart-hi-dark.svg',
     numberOfFrame : 2,
     delta : 48,
     refreshRate : 450,

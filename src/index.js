@@ -2,7 +2,7 @@
 import './img/characters.png';
 import './img/misc.png';
 import './img/pills.png';
-import './img/letter-c.svg';
+import './img/heart-hi-dark.svg';
 // AGENT_MOD: Import SVG icons for ghost sprites
 import '../assets/dsl.svg';
 import '../assets/fusion.svg';
