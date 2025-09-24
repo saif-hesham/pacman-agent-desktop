@@ -589,7 +589,7 @@ class JsPacman extends Game {
       const victoryText = document.createElement('div');
       victoryText.className = 'victory-text';
       victoryText.innerHTML =
-        '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">ALL LEGACY STACKS CONQUERED! <br> 🏆🏆🏆</span>';
+        '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">ALL LEGACY STACKS Unified! <br> 🏆🏆🏆</span>';
       this.el.appendChild(victoryText);
       this.elements.victoryText = victoryText;
     }
