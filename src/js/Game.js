@@ -127,7 +127,7 @@ class JsPacman extends Game {
       // this.model.level++;
       // this.reset();
       // this._win = false;
-      
+
       // Instead of advancing to next level, show celebration and restart
       this.showCelebration();
       return;
@@ -154,8 +154,6 @@ class JsPacman extends Game {
     this.blinky.destroy();
     this.inky.destroy();
     this.sue.destroy();
-    // AGENT_MOD: Destroy mobile ghost
-    this.mobile.destroy();
     this.pacman.destroy();
 
     this.map.destroyItems();
@@ -282,8 +280,6 @@ class JsPacman extends Game {
       this.blinky.reset();
       this.inky.reset();
       this.sue.reset();
-      // AGENT_MOD: Reset mobile ghost
-      this.mobile.reset();
 
       if (this.bonus) {
         this._destroyBonus = 0;
@@ -419,18 +415,6 @@ class JsPacman extends Game {
 
     this.addSprite(this.sue);
 
-    // AGENT_MOD: Add fifth ghost - Mobile (position inside ghost house)
-    const mobileTile = this.map.houseCenter;
-    this.mobile = makeGhost('mobile', {
-      ...ghostAttrs,
-      x: mobileTile.x + 8, // Position slightly right of center to avoid overlap
-      y: mobileTile.y - 8, // Position slightly above center
-    });
-
-    this.addEventListenersToGhost(this.mobile);
-
-    this.addSprite(this.mobile);
-
     show(this.elements.startReady);
 
     if (!this._win) {
@@ -520,8 +504,6 @@ class JsPacman extends Game {
         this.blinky.move();
         this.inky.move();
         this.sue.move();
-        // AGENT_MOD: Move mobile ghost
-        this.mobile.move();
 
         if (this._destroyBonus) {
           if (this._destroyBonus === 1) {
@@ -590,13 +572,13 @@ class JsPacman extends Game {
   startBigCelebration() {
     // Create celebration elements
     this.createCelebrationElements();
-    
+
     // Start multiple celebration effects
     this.startConfettiEffect();
     this.startScreenFlash();
     this.startVictoryText();
     this.startFireworks();
-    
+
     // Play victory sound
     this.sound.play('bonus'); // Using bonus sound as victory sound
   }
@@ -606,11 +588,12 @@ class JsPacman extends Game {
     if (!this.elements.victoryText) {
       const victoryText = document.createElement('div');
       victoryText.className = 'victory-text';
-      victoryText.innerHTML = '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">ALL LEGACY STACKS CONQUERED! <br> 🏆🏆🏆</span>';
+      victoryText.innerHTML =
+        '🎉🎉 VICTORY! 🎉🎉<br><span class="victory-subtitle">ALL LEGACY STACKS CONQUERED! <br> 🏆🏆🏆</span>';
       this.el.appendChild(victoryText);
       this.elements.victoryText = victoryText;
     }
-    
+
     // Create confetti container
     if (!this.elements.confettiContainer) {
       const confettiContainer = document.createElement('div');
@@ -622,19 +605,29 @@ class JsPacman extends Game {
 
   startConfettiEffect() {
     const confettiContainer = this.elements.confettiContainer;
-    const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
-    
+    const colors = [
+      '#FFD700',
+      '#FF6B6B',
+      '#4ECDC4',
+      '#45B7D1',
+      '#96CEB4',
+      '#FFEAA7',
+      '#DDA0DD',
+      '#98D8C8',
+    ];
+
     // Create confetti pieces
     for (let i = 0; i < 100; i++) {
       setTimeout(() => {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.backgroundColor =
+          colors[Math.floor(Math.random() * colors.length)];
         confetti.style.animationDelay = Math.random() * 3 + 's';
-        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
         confettiContainer.appendChild(confetti);
-        
+
         // Remove confetti after animation
         setTimeout(() => {
           if (confetti.parentNode) {
@@ -667,17 +660,18 @@ class JsPacman extends Game {
     victoryText.style.display = 'block';
     victoryText.style.opacity = '0';
     victoryText.style.transform = 'scale(0.5)';
-    
+
     // Animate victory text appearance
     setTimeout(() => {
       victoryText.style.transition = 'all 0.8s ease-out';
       victoryText.style.opacity = '1';
       victoryText.style.transform = 'scale(1)';
     }, 500);
-    
+
     // Make text bounce
     setTimeout(() => {
-      victoryText.style.animation = 'victoryBounce 0.6s ease-in-out infinite alternate';
+      victoryText.style.animation =
+        'victoryBounce 0.6s ease-in-out infinite alternate';
     }, 1000);
   }
 
@@ -693,10 +687,10 @@ class JsPacman extends Game {
   createFirework() {
     const firework = document.createElement('div');
     firework.className = 'firework';
-    firework.style.left = (Math.random() * 80 + 10) + '%';
-    firework.style.top = (Math.random() * 60 + 20) + '%';
+    firework.style.left = Math.random() * 80 + 10 + '%';
+    firework.style.top = Math.random() * 60 + 20 + '%';
     this.el.appendChild(firework);
-    
+
     setTimeout(() => {
       if (firework.parentNode) {
         firework.parentNode.removeChild(firework);
@@ -722,7 +716,7 @@ class JsPacman extends Game {
     if (this.elements.confettiContainer) {
       this.elements.confettiContainer.innerHTML = '';
     }
-    
+
     // Remove any remaining firework elements
     const fireworks = this.el.querySelectorAll('.firework');
     fireworks.forEach(fw => {
@@ -737,8 +731,6 @@ class JsPacman extends Game {
     this.blinky.hide();
     this.inky.hide();
     this.sue.hide();
-    // AGENT_MOD: Hide mobile ghost
-    this.mobile.hide();
 
     if (this.bonus) this.bonus.hide();
   }
@@ -748,8 +740,6 @@ class JsPacman extends Game {
     this.blinky.show();
     this.inky.show();
     this.sue.show();
-    // AGENT_MOD: Show mobile ghost
-    this.mobile.show();
 
     if (this.bonus && !this._showBonus) this.bonus.show();
   }
@@ -759,9 +749,7 @@ class JsPacman extends Game {
       this.blinky.isFrightened() ||
       this.inky.isFrightened() ||
       this.pinky.isFrightened() ||
-      this.sue.isFrightened() ||
-      // AGENT_MOD: Include mobile ghost in frightened check
-      this.mobile.isFrightened()
+      this.sue.isFrightened()
     );
   }
 
@@ -770,9 +758,7 @@ class JsPacman extends Game {
       this.blinky.isDead() ||
       this.inky.isDead() ||
       this.pinky.isDead() ||
-      this.sue.isDead() ||
-      // AGENT_MOD: Include mobile ghost in dead check
-      this.mobile.isDead()
+      this.sue.isDead()
     );
   }
 
